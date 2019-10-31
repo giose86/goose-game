@@ -36,4 +36,9 @@ public class ConsoleGooseGameEventListener implements GooseGameEventListener {
     public void playerBounces(String playerName, String backTo) {
         printStream.print(String.format(". %s bounces! %s returns to %s", playerName, playerName, backTo));
     }
+
+    @Override
+    public void playerPrank(String playerName, String currentSpace, String backTo) {
+        printStream.print(String.format(". On %s there is %s, who returns to %s", currentSpace, playerName, backTo));
+    }
 }

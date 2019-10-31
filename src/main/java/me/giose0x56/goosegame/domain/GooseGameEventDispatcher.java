@@ -13,23 +13,32 @@ class GooseGameEventDispatcher {
     }
 
     public void dispatchPlayerMoves(String playerName, Space fromSpace, Space toSpace) {
-        this.gooseGameEventListeners.forEach(gooseGameEventListener -> gooseGameEventListener.playerMoves(playerName,
-                fromSpace.name(), toSpace.name()));
+        this.gooseGameEventListeners.forEach(gooseGameEventListener ->
+                gooseGameEventListener.playerMoves(playerName, fromSpace.name(), toSpace.name()));
     }
 
     public void dispatchPlayerMovesAgain(String playerName, Space toSpace) {
-        this.gooseGameEventListeners.forEach(gooseGameEventListener -> gooseGameEventListener.playerMovesAgain(playerName, toSpace.name()));
+        this.gooseGameEventListeners.forEach(gooseGameEventListener ->
+                gooseGameEventListener.playerMovesAgain(playerName, toSpace.name()));
     }
 
     public void dispatchPlayerWins(String playerName) {
-        this.gooseGameEventListeners.forEach(gooseGameEventListener -> gooseGameEventListener.playerWins(playerName));
+        this.gooseGameEventListeners.forEach(gooseGameEventListener ->
+                gooseGameEventListener.playerWins(playerName));
     }
 
     public void dispatchPlayerJumps(String playerName, Space toSpace) {
-        this.gooseGameEventListeners.forEach(gooseGameEventListener -> gooseGameEventListener.playerJumps(playerName, toSpace.name()));
+        this.gooseGameEventListeners.forEach(gooseGameEventListener ->
+                gooseGameEventListener.playerJumps(playerName, toSpace.name()));
     }
 
     public void dispatchPlayerBounces(String playerName, Space backTo) {
-        this.gooseGameEventListeners.forEach(gooseGameEventListener -> gooseGameEventListener.playerBounces(playerName, backTo.name()));
+        this.gooseGameEventListeners.forEach(gooseGameEventListener ->
+                gooseGameEventListener.playerBounces(playerName, backTo.name()));
+    }
+
+    public void dispatchPlayerPrank(String playerName, Space currentSpace, Space backTo) {
+        this.gooseGameEventListeners.forEach(gooseGameEventListener ->
+                gooseGameEventListener.playerPrank(playerName, currentSpace.name(), backTo.name()));
     }
 }

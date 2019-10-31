@@ -3,7 +3,10 @@ package me.giose0x56.goosegame.domain.board;
 import me.giose0x56.goosegame.domain.board.space.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class BoardWith63Places implements Board {
 
@@ -62,5 +65,15 @@ public class BoardWith63Places implements Board {
     @Override
     public boolean isWinningSpace(Space space) {
         return space.number() == MAX_SPACES;
+    }
+
+    @Override
+    public Stream<String> getPlayersInSpace(Space space, String playerNameToExclude) {
+
+        return this.playerPosition
+                .entrySet()
+                .stream()
+                .filter(entry -> space.number() == entry.getValue() && !entry.getKey().equals(playerNameToExclude))
+                .map(Map.Entry::getKey);
     }
 }

@@ -39,13 +39,20 @@ public class GooseGame {
             throw new PlayerNotFoundException();
         }
 
-        Space currentSpace = this.board.getCurrentSpaceOf(playerName);
+        Space previouslySpace = this.board.getCurrentSpaceOf(playerName);
 
-        int temporaryPosition = currentSpace.number() + dices.asSum();
+        int temporaryPosition = previouslySpace.number() + dices.asSum();
         Space nextSpace = this.board.movePlayer(playerName, Math.min(temporaryPosition, board.getMaxSpaces()));
-        gooseGameEventDispatcher.dispatchPlayerMoves(playerName, currentSpace, nextSpace);
+        gooseGameEventDispatcher.dispatchPlayerMoves(playerName, previouslySpace, nextSpace);
 
         calculateNextPosition(playerName, temporaryPosition, dices.asSum(), nextSpace);
+
+        // check prank
+        Space currentSpace = this.board.getCurrentSpaceOf(playerName);
+        this.board.getPlayersInSpace(currentSpace, playerName).forEach(playerToPrank -> {
+            this.board.movePlayer(playerToPrank, previouslySpace.number());
+            this.gooseGameEventDispatcher.dispatchPlayerPrank(playerToPrank, currentSpace, previouslySpace);
+        });
     }
 
     public List<String> getPlayers() {

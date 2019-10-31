@@ -179,4 +179,31 @@ public class GooseGameTest {
         verify(gooseGameEventDispatcher, times(1)).
                 dispatchPlayerMovesAgain(playerName, currentSpace);
     }
+
+    @Test
+    public void givenTwoPlayer_whenPlayerOneMovesInTheSpaceOccupiedByAnotherPlayerTwo_thenPlayerTwoSentToPreviousPlayerOnePosition()
+            throws PlayerExistException, PlayerNotFoundException {
+
+        String player1 = "Pippo";
+        String player2 = "Pluto";
+
+        this.gooseGame.addPlayer(player1);
+        this.gooseGame.addPlayer(player2);
+        this.board.movePlayer(player2, 10);
+
+        Dices dices = Dices.with(5, 5);
+        this.gooseGame.movePlayer(player1, dices);
+
+        Space currentPlayer1Space = this.board.getCurrentSpaceOf(player1);
+        Space currentPlayer2Space = this.board.getCurrentSpaceOf(player2);
+
+        assertThat(currentPlayer1Space).isInstanceOf(DefaultSpace.class);
+        assertThat(currentPlayer1Space.name()).isEqualTo("10");
+        assertThat(currentPlayer2Space).isInstanceOf(StartSpace.class);
+        assertThat(currentPlayer2Space.name()).isEqualTo("Start");
+        verify(gooseGameEventDispatcher, times(1)).
+                dispatchPlayerMoves(anyString(), any(Space.class), any(Space.class));
+        verify(gooseGameEventDispatcher, times(1)).
+                dispatchPlayerPrank(anyString(), any(Space.class), any(Space.class));
+    }
 }

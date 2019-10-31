@@ -7,4 +7,5 @@ public interface GooseGameEventListener {
     void playerJumps(String playerName, String toSpace);
     void playerWins(String playerName);
     void playerBounces(String playerName, String backTo);
+    void playerPrank(String playerName, String currentSpace, String backTo);
 }
